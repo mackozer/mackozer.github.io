@@ -12,32 +12,33 @@
       background-color: #fefefe;
       color: #1a1a1a;
       text-align: center;
+      overflow-x: hidden;
     }
 
     header {
-      padding: 40px 20px 20px;
+      padding: 20px 20px 10px;
     }
 
     header img.logo {
-      width: 80px;
-      margin-bottom: 20px;
+      width: 60px;
+      margin-bottom: 10px;
     }
 
     h1 {
-      font-size: 2.5em;
+      font-size: 2em;
       margin: 0.2em 0;
     }
 
     p.lead {
-      font-size: 1.2em;
+      font-size: 1em;
       color: #555;
-      margin-bottom: 2em;
+      margin-bottom: 1.5em;
     }
 
     .appstore-button {
       display: inline-block;
-      margin-top: 30px;
-      padding: 12px 28px;
+      margin-top: 10px;
+      padding: 10px 24px;
       font-size: 1em;
       color: white;
       background-color: #0070f3;
@@ -51,34 +52,43 @@
       background-color: #005ad2;
     }
 
-    .carousel-container {
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 480px;
+      margin: 30px 0;
+    }
+
+    .carousel-track {
       display: flex;
-      gap: 0;
-      padding: 40px 0;
-      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      transition: transform 1.2s ease-in-out;
     }
 
     .carousel-slide {
-      scroll-snap-align: center;
       flex: 0 0 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 10px;
+    }
+
+    .ios-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
     }
 
     .carousel-slide img {
-      max-width: 100%;
       height: auto;
-      max-height: 80vh;
+      max-height: 420px;
+      max-width: 100%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .footer-buttons {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .footer-buttons a {
@@ -98,10 +108,42 @@
     }
 
     footer {
-      margin-top: 60px;
-      padding: 20px;
-      font-size: 0.9em;
+      margin-top: 30px;
+      padding: 15px;
+      font-size: 0.85em;
       color: #aaa;
+    }
+
+    @media (max-height: 800px) {
+      .carousel-wrapper {
+        max-height: 440px;
+      }
+      .carousel-slide img {
+        max-height: 400px;
+      }
+    }
+    
+    .carousel-dots {
+      margin-top: 10px;
+    }
+    
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 6px 6px;
+      background-color: #ccc;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+    
+    .dot.active {
+      background-color: #0070f3;
+    }
+    
+    /* Pauza na hover */
+    .carousel-wrapper:hover {
+      cursor: grab;
     }
   </style>
 </head>
@@ -114,25 +156,38 @@
     <a href="#" class="appstore-button">Download on the App Store</a>
   </header>
 
-  <div class="carousel-container">
-    <!-- iOS screenshots -->
-    <div class="carousel-slide">
-      <img src="focusPebble-iOS-01.png" alt="Focus Pebble iOS – Presets and active timers" />
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Original slides -->
+      <div class="carousel-slide">
+        <div class="ios-group">
+          <img src="focusPebble-iOS-01.png" alt="iOS – presets and timers" />
+          <img src="focusPebble-iOS-02.png" alt="iOS – Pomodoro timer" />
+          <img src="focusPebble-iOS-03.png" alt="iOS – Edit timer" />
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="focusPebble-iPadOS-01.png" alt="iPadOS – multi-timer view" />
+      </div>
+      <div class="carousel-slide">
+        <img src="focusPebble-macOS-01.png" alt="macOS – application window" />
+      </div>
+      
+      <!-- Clone of first slide (for smooth looping) -->
+      <div class="carousel-slide">
+        <div class="ios-group">
+          <img src="focusPebble-iOS-01.png" alt="iOS – presets and timers (duplicate)" />
+          <img src="focusPebble-iOS-02.png" alt="iOS – Pomodoro timer (duplicate)" />
+          <img src="focusPebble-iOS-03.png" alt="iOS – Edit timer (duplicate)" />
+        </div>
+      </div>
     </div>
-    <div class="carousel-slide">
-      <img src="focusPebble-iOS-02.png" alt="Focus Pebble iOS – Pomodoro timer screen" />
-    </div>
-    <div class="carousel-slide">
-      <img src="focusPebble-iOS-03.png" alt="Focus Pebble iOS – Edit timer screen" />
-    </div>
-    <!-- iPadOS -->
-    <div class="carousel-slide">
-      <img src="focusPebble-iPadOS-01.png" alt="Focus Pebble iPadOS – Multi-timer interface" />
-    </div>
-    <!-- macOS -->
-    <div class="carousel-slide">
-      <img src="focusPebble-macOS-01.png" alt="Focus Pebble macOS – App window view" />
-    </div>
+  </div>
+  
+  <div class="carousel-dots" id="carouselDots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
   </div>
 
   <div class="footer-buttons">
@@ -144,6 +199,63 @@
   <footer>
     &copy; 2025 Focus Pebble. All rights reserved.
   </footer>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.dot');
+    const wrapper = document.querySelector('.carousel-wrapper');
+    const slideCount = 4; // including duplicate
+    let index = 0;
+    let intervalId;
+    let isPaused = false;
+    
+    function updateDots(activeIndex) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+    
+    function nextSlide() {
+      if (isPaused) return;
+      
+      index++;
+      track.style.transition = 'transform 1.2s ease-in-out';
+      track.style.transform = `translateX(-${index * 100}%)`;
+      
+      if (index === slideCount - 1) {
+        // wait for transition then reset
+        setTimeout(() => {
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(0)';
+          index = 0;
+          updateDots(index);
+        }, 1300);
+      } else {
+        updateDots(index);
+      }
+    }
+    
+    function startCarousel() {
+      intervalId = setInterval(nextSlide, 10000);
+    }
+    
+    function stopCarousel() {
+      clearInterval(intervalId);
+    }
+    
+    wrapper.addEventListener('mouseenter', () => {
+      isPaused = true;
+      stopCarousel();
+    });
+    
+    wrapper.addEventListener('mouseleave', () => {
+      isPaused = false;
+      startCarousel();
+    });
+    
+    // Start initially
+    startCarousel();
+  </script>
 
 </body>
 </html>
