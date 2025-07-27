@@ -168,6 +168,7 @@
       display: flex;
       justify-content: center;
       gap: 10px;
+      flex-wrap: nowrap;
     }
 
     .carousel-slide img {
@@ -189,23 +190,25 @@
     
     /* 🧠 Skalowanie na iPhonie i małych ekranach */
     @media (max-width: 768px) {
-      .carousel-slide img {
-        max-height: 280px;
-        max-width: 30%; /* trzy obok siebie */
-      }
-      
-      .ios-group {
-        flex-direction: row;
-        justify-content: center;
-        gap: 6px;
-      }
-      
       .carousel-wrapper {
         max-height: 340px;
       }
       
-      .carousel-track {
-        height: auto;
+      .carousel-slide {
+        flex-direction: column;
+        padding: 10px;
+      }
+      
+      .ios-group img {
+        max-height: 260px;
+        max-width: 30%;
+      }
+      
+      /* iPad + Mac – pojedynczy obraz ma wypełnić slajd, ale z zachowaniem proporcji */
+      .carousel-slide img:not(.ios-group img) {
+        max-width: 90vw;
+        max-height: 70vh;
+        object-fit: contain;
       }
     }
     
