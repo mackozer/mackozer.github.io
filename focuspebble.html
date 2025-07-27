@@ -174,9 +174,39 @@
       height: auto;
       max-height: 420px;
       max-width: 100%;
-      border-radius: 0; /* lub 8px jeśli chcesz delikatnie */
+      border-radius: 0;
       box-shadow: none;
       background: transparent;
+    }
+    
+    /* dla grupy z 3 zrzutami (iOS) */
+    .ios-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+    
+    /* 🧠 Skalowanie na iPhonie i małych ekranach */
+    @media (max-width: 768px) {
+      .carousel-slide img {
+        max-height: 280px;
+        max-width: 30%; /* trzy obok siebie */
+      }
+      
+      .ios-group {
+        flex-direction: row;
+        justify-content: center;
+        gap: 6px;
+      }
+      
+      .carousel-wrapper {
+        max-height: 340px;
+      }
+      
+      .carousel-track {
+        height: auto;
+      }
     }
     
     .carousel-slide {
