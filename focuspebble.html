@@ -52,26 +52,29 @@
     }
 
     .carousel-container {
-      overflow-x: auto;
-      white-space: nowrap;
+      overflow-x: scroll;
       scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      display: flex;
+      gap: 0;
       padding: 40px 0;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .carousel {
-      display: inline-flex;
-      gap: 20px;
-      padding: 0 20px;
+    .carousel-slide {
+      scroll-snap-align: center;
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
     }
 
-    .carousel img {
-      width: 300px;
-      max-width: 90%;
+    .carousel-slide img {
+      max-width: 100%;
+      height: auto;
+      max-height: 80vh;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      scroll-snap-align: center;
-      flex-shrink: 0;
     }
 
     .footer-buttons {
@@ -112,14 +115,22 @@
   </header>
 
   <div class="carousel-container">
-    <div class="carousel">
-      <!-- iOS -->
+    <!-- iOS screenshots -->
+    <div class="carousel-slide">
       <img src="focusPebble-iOS-01.png" alt="Focus Pebble iOS – Presets and active timers" />
+    </div>
+    <div class="carousel-slide">
       <img src="focusPebble-iOS-02.png" alt="Focus Pebble iOS – Pomodoro timer screen" />
+    </div>
+    <div class="carousel-slide">
       <img src="focusPebble-iOS-03.png" alt="Focus Pebble iOS – Edit timer screen" />
-      <!-- iPadOS -->
+    </div>
+    <!-- iPadOS -->
+    <div class="carousel-slide">
       <img src="focusPebble-iPadOS-01.png" alt="Focus Pebble iPadOS – Multi-timer interface" />
-      <!-- macOS -->
+    </div>
+    <!-- macOS -->
+    <div class="carousel-slide">
       <img src="focusPebble-macOS-01.png" alt="Focus Pebble macOS – App window view" />
     </div>
   </div>
