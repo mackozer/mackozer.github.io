@@ -34,21 +34,6 @@
       margin-bottom: 2em;
     }
 
-    .screenshots {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 0 20px 40px;
-    }
-
-    .screenshots img {
-      width: 300px;
-      max-width: 90%;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
     .appstore-button {
       display: inline-block;
       margin-top: 30px;
@@ -66,6 +51,49 @@
       background-color: #005ad2;
     }
 
+    .carousel-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 40px 0;
+    }
+
+    .carousel {
+      display: inline-flex;
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .carousel img {
+      width: 300px;
+      max-width: 90%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+
+    .footer-buttons {
+      margin-top: 40px;
+    }
+
+    .footer-buttons a {
+      display: inline-block;
+      margin: 8px 10px;
+      padding: 10px 16px;
+      font-size: 0.95em;
+      text-decoration: none;
+      border-radius: 8px;
+      color: white;
+      background-color: #555;
+      transition: background-color 0.3s;
+    }
+
+    .footer-buttons a:hover {
+      background-color: #333;
+    }
+
     footer {
       margin-top: 60px;
       padding: 20px;
@@ -79,23 +107,28 @@
   <header>
     <img src="FocusPebble-Mac.png" alt="Focus Pebble Logo" class="logo" />
     <h1>Focus Pebble</h1>
-    <p class="lead">Your personal timer for deep focus, learning, and breaks – available for iPhone, iPad, and Mac.</p>
+    <p class="lead">Your personal timer for deep focus, study sessions, and mindful breaks — available for iPhone, iPad, and Mac.</p>
     <a href="#" class="appstore-button">Download on the App Store</a>
   </header>
 
-  <section class="screenshots">
-    <img src="focusPebble-iOS-01.png" alt="Focus Pebble iOS – presets and active timers view" />
-    <img src="focusPebble-iOS-02.png" alt="Focus Pebble iOS – Pomodoro timer screen" />
-    <img src="focusPebble-iOS-03.png" alt="Focus Pebble iOS – edit timer screen" />
-  </section>
+  <div class="carousel-container">
+    <div class="carousel">
+      <!-- iOS -->
+      <img src="focusPebble-iOS-01.png" alt="Focus Pebble iOS – Presets and active timers" />
+      <img src="focusPebble-iOS-02.png" alt="Focus Pebble iOS – Pomodoro timer screen" />
+      <img src="focusPebble-iOS-03.png" alt="Focus Pebble iOS – Edit timer screen" />
+      <!-- iPadOS -->
+      <img src="focusPebble-iPadOS-01.png" alt="Focus Pebble iPadOS – Multi-timer interface" />
+      <!-- macOS -->
+      <img src="focusPebble-macOS-01.png" alt="Focus Pebble macOS – App window view" />
+    </div>
+  </div>
 
-  <section class="screenshots">
-    <img src="focusPebble-iPadOS-01.png" alt="Focus Pebble iPadOS – multi-timer interface" />
-  </section>
-  
-  <section class="screenshots">
-    <img src="focusPebble-macOS-01.png" alt="Focus Pebble macOS – app window overview" />
-  </section>
+  <div class="footer-buttons">
+    <a href="mailto:mackozer@icloud.com">Support / Contact Developer</a>
+    <a href="https://mastodon.social/@mackozer" target="_blank">Mastodon</a>
+    <a href="https://bsky.app/profile/mackozer.bsky.social" target="_blank">Bluesky</a>
+  </div>
 
   <footer>
     &copy; 2025 Focus Pebble. All rights reserved.
