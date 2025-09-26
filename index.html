@@ -1,7 +1,269 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krystian Kozerawski — Indie Swift Developer</title>
+  <meta name="description" content="Krystian Kozerawski — Indie Swift developer building apps with Swift and SwiftUI. Creator and contributor to Eter, Calm My Dog, and more." />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:title" content="Krystian Kozerawski — Indie Swift Developer" />
+  <meta property="og:description" content="Indie Swift developer (Swift, SwiftUI). Apps: Eter, Calm My Dog, My Prompt Tester, Pass & ID Photo, Focus Pebble, Negative." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    :root {
+      --bg: #0b1020;         /* dark navy */
+      --bg-soft: #11162a;
+      --card: #141a33;
+      --text: #eaeefb;
+      --muted: #a9b4d0;
+      --accent: #0ea5e9;     /* sky */
+      --accent-2: #22d3ee;   /* cyan */
+      --ring: rgba(34, 211, 238, .45);
+      --shadow: 0 10px 30px rgba(2, 8, 23, .7);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --bg-soft: #f1f5f9;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #0284c7;
+        --accent-2: #0891b2;
+        --ring: rgba(2, 132, 199, .25);
+        --shadow: 0 10px 30px rgba(2, 8, 23, .08);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(14,165,233,.15), transparent 60%),
+                  radial-gradient(900px 600px at -20% -10%, rgba(34,211,238,.18), transparent 55%),
+                  var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(1.1) blur(10px);
+      background-color: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { font-weight: 800; letter-spacing: .2px; font-size: 18px; }
+    .nav a { color: var(--muted); font-weight: 600; }
+    .nav a:hover { color: var(--text); }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; padding: 48px 0 28px; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+
+    .badge { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; border-radius: 999px; background: color-mix(in oklab, var(--card) 70%, transparent); border: 1px solid color-mix(in oklab, var(--text) 8%, transparent); color: var(--muted); font-weight: 700; box-shadow: var(--shadow); }
+
+    h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.15; margin: 16px 0 10px; letter-spacing: .3px; }
+    .subtitle { font-size: clamp(16px, 2.1vw, 20px); color: var(--muted); margin: 0 0 18px; font-weight: 600; }
+
+    .card {
+      background: linear-gradient(180deg, color-mix(in oklab, var(--card) 90%, transparent), var(--card));
+      border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .about { font-size: 18px; color: var(--text); }
+    .kicker { color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .18em; font-size: 12px; }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+    .app-card { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: center; transition: transform .15s ease, box-shadow .15s ease; }
+    .app-card:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(2, 8, 23, .25); }
+    .app-icon { width: 92px; height: 92px; border-radius: 20%; object-fit: cover; border: 1px solid color-mix(in oklab, var(--text) 10%, transparent); background: var(--bg-soft); }
+    .app-title { margin: 0; font-size: 20px; }
+    .app-desc { margin: 6px 0 10px; color: var(--muted); }
+
+    .platforms { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { border: 1px solid color-mix(in oklab, var(--text) 10%, transparent); padding: 6px 10px; border-radius: 999px; font-size: 12px; color: var(--muted); background: color-mix(in oklab, var(--card) 70%, transparent); }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; border: 1px solid color-mix(in oklab, var(--text) 12%, transparent); padding: 10px 14px; border-radius: 12px; font-weight: 700; color: var(--text); background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 20%, transparent), color-mix(in oklab, var(--accent-2) 20%, transparent)); box-shadow: var(--shadow); text-decoration: none; }
+    .cta:hover { transform: translateY(-1px); }
+
+    section { margin: 40px 0; }
+    footer { margin: 48px 0 24px; color: var(--muted); font-size: 14px; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Krystian Kozerawski",
+    "jobTitle": "Indie Swift Developer",
+    "url": "https://example.com/",
+    "sameAs": [
+      "https://mastodon.social/@mackozer",
+      "https://bsky.app/profile/mackozer.bsky.social"
+    ],
+    "knowsAbout": ["Swift", "SwiftUI", "iOS", "macOS", "watchOS", "tvOS"],
+    "email": "mailto:mackozer@icloud.com"
+  }
+  </script>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <header>
+    <div class="container nav">
+      <div class="brand">KK</div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#apps">Apps</a>
+        <a href="#indie">Indie</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="badge" aria-label="Tech stack"><span>Swift</span> • <span>SwiftUI</span></span>
+        <h1>Krystian Kozerawski</h1>
+        <p class="subtitle">Indie Swift developer</p>
+        <p class="about card">I’m an indie developer building my own apps and also shipping products with the team at <strong>Apparent Software</strong>.</p>
+        <div class="links" style="margin-top:16px">
+          <a class="cta" href="#apps" aria-label="See apps">See my apps →</a>
+          <a class="cta" href="#contact" aria-label="Contact">Contact me</a>
+        </div>
+      </div>
+      <div class="card">
+        <p class="kicker">Quick links</p>
+        <div class="links">
+          <a href="https://mastodon.social/@mackozer" rel="me noopener noreferrer" target="_blank">Mastodon</a>
+          <a href="https://bsky.app/profile/mackozer.bsky.social" rel="noopener noreferrer" target="_blank">Bluesky</a>
+          <a href="mailto:mackozer@icloud.com">Email</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="apps">
+      <p class="kicker">Team @ Apparent Software</p>
+      <h2>Apps I’ve created, co-created and develop with the team</h2>
+      <div class="grid">
+        <!-- Eter -->
+        <article class="card app-card">
+          <img class="app-icon" src="eter.png" alt="Eter app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">Eter — Internet Radio</h3>
+            <p class="app-desc">A native app for streaming internet radio stations on Apple platforms.</p>
+            <div class="platforms" aria-label="Supported platforms">
+              <span class="chip">macOS</span>
+              <span class="chip">iOS</span>
+              <span class="chip">tvOS</span>
+              <span class="chip">watchOS</span>
+            </div>
+            <p style="margin-top:10px">
+              <a class="cta" href="https://apps.apple.com/pl/app/eter-streaming-internet-radio/id1523221566" target="_blank" rel="noopener noreferrer" aria-label="Get Eter on the App Store">Get on the App Store</a>
+            </p>
+          </div>
+        </article>
+
+        <!-- Calm My Dog -->
+        <article class="card app-card">
+          <img class="app-icon" src="calm-my-dog.png" alt="Calm My Dog app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">Calm My Dog — Separation Anxiety Training</h3>
+            <p class="app-desc">A daily training companion to help overcome separation anxiety in dogs.</p>
+            <div class="platforms" aria-label="Supported platforms">
+              <span class="chip">iOS</span>
+            </div>
+            <p style="margin-top:10px">
+              <a class="cta" href="https://apps.apple.com/pl/app/training-help-calm-my-dog/id1629500193" target="_blank" rel="noopener noreferrer" aria-label="Get Calm My Dog on the App Store">Get on the App Store</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="indie">
+      <p class="kicker">Independent releases</p>
+      <h2>Apps I publish independently</h2>
+      <div class="grid">
+        <!-- My Prompt Tester -->
+        <article class="card app-card">
+          <img class="app-icon" src="my-prompt-tester.png" alt="My Prompt Tester app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">My Prompt Tester</h3>
+            <p class="app-desc">A simple free app for macOS 26 and iOS 26 to test prompts and instructions for Apple Intelligence (Foundation Models), copy them, and save with iCloud/CloudKit sync.</p>
+            <div class="platforms"><span class="chip">macOS</span><span class="chip">iOS</span></div>
+            <p style="margin-top:10px"><a class="cta" href="https://mackozer.github.io/myprompttester.html" target="_blank" rel="noopener noreferrer">Learn more</a></p>
+          </div>
+        </article>
+
+        <!-- Pass & ID Photo -->
+        <article class="card app-card">
+          <img class="app-icon" src="pass-id-photo.png" alt="Pass &amp; ID Photo app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">Pass &amp; ID Photo</h3>
+            <p class="app-desc">An iOS app for quickly creating passport and ID photos to the EU standard (35 × 45 mm).</p>
+            <div class="platforms"><span class="chip">iOS</span></div>
+            <p style="margin-top:10px"><a class="cta" href="https://mackozer.github.io/passIDPhoto.html" target="_blank" rel="noopener noreferrer">Learn more</a></p>
+          </div>
+        </article>
+
+        <!-- Focus Pebble -->
+        <article class="card app-card">
+          <img class="app-icon" src="focus-pebble.png" alt="Focus Pebble app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">Focus Pebble</h3>
+            <p class="app-desc">Timers for macOS and iOS. Create custom timers and keep an archive of completed sessions with iCloud (CloudKit) sync.</p>
+            <div class="platforms"><span class="chip">macOS</span><span class="chip">iOS</span></div>
+            <p style="margin-top:10px"><a class="cta" href="https://mackozer.github.io/focuspebble.html" target="_blank" rel="noopener noreferrer">Learn more</a></p>
+          </div>
+        </article>
+
+        <!-- Negative -->
+        <article class="card app-card">
+          <img class="app-icon" src="negative.png" alt="Negative app icon" loading="lazy" />
+          <div>
+            <h3 class="app-title">Negative</h3>
+            <p class="app-desc">A very simple PDF reader for macOS with a color-inverting filter.</p>
+            <div class="platforms"><span class="chip">macOS</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>Get in touch</h2>
+      <p>
+        I’m always happy to chat about Swift, SwiftUI, and app ideas. The fastest way to reach me is by email.
+      </p>
+      <p class="links">
+        <a class="cta" href="mailto:mackozer@icloud.com">Email: mackozer@icloud.com</a>
+        <a class="cta" href="https://mastodon.social/@mackozer" target="_blank" rel="me noopener noreferrer">Mastodon</a>
+        <a class="cta" href="https://bsky.app/profile/mackozer.bsky.social" target="_blank" rel="noopener noreferrer">Bluesky</a>
+      </p>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Krystian Kozerawski. Built with Swift energy ⚡️
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
