@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Light Junkie — Sunrise & Sunset Times</title>
+  <meta name="description" content="Track sunrise and sunset times for your location and cities around the world. Beautiful sun arc visualization, 7-day forecast, and more.">
+  <script>
+    const translations = {
+      en: {
+        headline: "Track sunrise and sunset times with beautiful visualizations. See daylight duration, compare with winter solstice, and plan your day around the light.",
+        download: "Download on the App Store",
+        support: "Support / Contact Developer",
+        features: `
+          <section style="text-align: left; max-width: 900px; margin: 0 auto 24px;">
+            <h2>Features</h2>
+            <ul>
+              <li><strong>Sunrise & Sunset Times</strong> — accurate times for your current location or any city worldwide.</li>
+              <li><strong>Dawn & Dusk</strong> — see civil twilight times for the complete picture.</li>
+              <li><strong>Beautiful Sun Arc</strong> — visualize sun position throughout the day with an elegant arc display.</li>
+              <li><strong>Daylight Duration</strong> — see how much daylight you have and compare with the winter solstice.</li>
+              <li><strong>7-Day Forecast</strong> — plan ahead with a week of sunrise and sunset predictions.</li>
+              <li><strong>Multiple Locations</strong> — track sun times for your favorite cities around the world.</li>
+              <li><strong>Polar Night & Midnight Sun</strong> — special handling for extreme latitudes.</li>
+              <li><strong>Home Screen Widgets</strong> — quick glance at sun times right from your home screen.</li>
+            </ul>
+          </section>
+        `,
+        privacy: `
+          <h2>Privacy Policy</h2>
+          <p><strong>Effective date:</strong> December 21, 2025</p>
+          <p><strong>Light Junkie</strong> is built with privacy in mind. Your location data and preferences are processed <strong>on your device</strong>. We do <strong>not</strong> collect, transmit, or store personal data on our servers.</p>
+          <h3>Data we do not collect</h3>
+          <ul>
+            <li>We do not collect personal information, usage analytics, or device identifiers.</li>
+            <li>We do not run ads and do not use third-party tracking SDKs.</li>
+          </ul>
+          <h3>How your data is handled</h3>
+          <ul>
+            <li>Your current GPS location is used only to calculate sunrise/sunset times and is stored locally on your device.</li>
+            <li>Saved locations are synced via iCloud to your other devices using your Apple ID (if enabled).</li>
+            <li>Weather data is fetched from Apple WeatherKit using your approximate location.</li>
+          </ul>
+          <h3>Permissions</h3>
+          <ul>
+            <li><strong>Location</strong> — to determine sunrise and sunset times for your current position. Your precise location stays on your device.</li>
+          </ul>
+          <h3>iCloud Sync</h3>
+          <p>If you have iCloud enabled, your saved locations (city names and coordinates) are synced across your devices via Apple's iCloud service. This data is protected by your Apple ID and iCloud security.</p>
+          <h3>Third-party services</h3>
+          <ul>
+            <li><strong>Apple WeatherKit</strong> — used to fetch sunrise/sunset data. Apple's privacy policy applies to this service.</li>
+          </ul>
+          <h3>Changes</h3>
+          <p>If future updates change how we handle data, this policy will be updated and you will be notified within the app or on our website.</p>
+          <h3>Contact</h3>
+          <p>Questions? Email: <a href="mailto:mackozer@icloud.com">mackozer@icloud.com</a></p>
+        `
+      },
+      pl: {
+        headline: "Śledź wschody i zachody słońca z pięknymi wizualizacjami. Zobacz długość dnia, porównaj z przesileniem zimowym i planuj dzień wokół światła.",
+        download: "Pobierz z App Store",
+        support: "Wsparcie / Kontakt z twórcą",
+        features: `
+          <section style="text-align: left; max-width: 900px; margin: 0 auto 24px;">
+            <h2>Funkcje</h2>
+            <ul>
+              <li><strong>Wschód i zachód słońca</strong> — dokładne godziny dla Twojej lokalizacji lub dowolnego miasta na świecie.</li>
+              <li><strong>Świt i zmierzch</strong> — zobacz czasy zmierzchu cywilnego dla pełnego obrazu.</li>
+              <li><strong>Piękny łuk słońca</strong> — wizualizacja pozycji słońca w ciągu dnia z eleganckim wyświetlaczem łuku.</li>
+              <li><strong>Długość dnia</strong> — zobacz ile masz światła dziennego i porównaj z przesileniem zimowym.</li>
+              <li><strong>Prognoza 7-dniowa</strong> — planuj z wyprzedzeniem z tygodniem przewidywań wschodu i zachodu.</li>
+              <li><strong>Wiele lokalizacji</strong> — śledź czasy słońca dla ulubionych miast na świecie.</li>
+              <li><strong>Noc polarna i słońce o północy</strong> — specjalna obsługa skrajnych szerokości geograficznych.</li>
+              <li><strong>Widżety ekranu głównego</strong> — szybki podgląd czasów słońca prosto z ekranu głównego.</li>
+            </ul>
+          </section>
+        `,
+        privacy: `
+          <h2>Polityka prywatności</h2>
+          <p><strong>Data wejścia w życie:</strong> 21 grudnia 2025</p>
+          <p><strong>Light Junkie</strong> została stworzona z myślą o prywatności. Twoje dane lokalizacyjne i preferencje są przetwarzane <strong>na urządzeniu</strong>. <strong>Nie</strong> zbieramy, nie przesyłamy ani nie przechowujemy danych osobowych na naszych serwerach.</p>
+          <h3>Czego nie zbieramy</h3>
+          <ul>
+            <li>Nie zbieramy danych osobowych, analityki użycia ani identyfikatorów urządzeń.</li>
+            <li>Nie wyświetlamy reklam i nie używamy zewnętrznych SDK śledzących.</li>
+          </ul>
+          <h3>Jak przetwarzane są dane</h3>
+          <ul>
+            <li>Twoja aktualna lokalizacja GPS jest używana tylko do obliczania czasów wschodu/zachodu i jest przechowywana lokalnie na urządzeniu.</li>
+            <li>Zapisane lokalizacje są synchronizowane przez iCloud na inne urządzenia przy użyciu Twojego Apple ID (jeśli włączone).</li>
+            <li>Dane pogodowe są pobierane z Apple WeatherKit przy użyciu przybliżonej lokalizacji.</li>
+          </ul>
+          <h3>Uprawnienia</h3>
+          <ul>
+            <li><strong>Lokalizacja</strong> — do określenia czasów wschodu i zachodu słońca dla Twojej aktualnej pozycji. Dokładna lokalizacja pozostaje na urządzeniu.</li>
+          </ul>
+          <h3>Synchronizacja iCloud</h3>
+          <p>Jeśli masz włączony iCloud, zapisane lokalizacje (nazwy miast i współrzędne) są synchronizowane między urządzeniami przez usługę iCloud firmy Apple. Dane te są chronione przez Twoje Apple ID i zabezpieczenia iCloud.</p>
+          <h3>Usługi zewnętrzne</h3>
+          <ul>
+            <li><strong>Apple WeatherKit</strong> — używany do pobierania danych o wschodzie/zachodzie słońca. Polityka prywatności Apple dotyczy tej usługi.</li>
+          </ul>
+          <h3>Zmiany</h3>
+          <p>Jeśli przyszłe aktualizacje zmienią sposób obsługi danych, polityka zostanie zaktualizowana, a o zmianach poinformujemy w aplikacji lub na stronie.</p>
+          <h3>Kontakt</h3>
+          <p>Pytania? Napisz na: <a href="mailto:mackozer@icloud.com">mackozer@icloud.com</a></p>
+        `
+      }
+    };
+
+    function localizeContent() {
+      const lang = navigator.language || "en";
+      const shortLang = lang.toLowerCase();
+      const fallback = translations["en"];
+
+      const t =
+        translations[shortLang] ||
+        translations[shortLang.split("-")[0]] ||
+        fallback;
+
+      document.getElementById("headline").textContent = t.headline;
+      document.getElementById("appstoreButton").textContent = t.download;
+      document.getElementById("supportLink").textContent = t.support;
+      document.getElementById("featuresContent").innerHTML = t.features;
+      document.getElementById("privacyContent").innerHTML = t.privacy;
+    }
+
+    document.addEventListener("DOMContentLoaded", localizeContent);
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #ffffff;
+      text-align: center;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 40px 20px 20px;
+    }
+
+    .app-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 32px rgba(255, 165, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin: 0.2em 0;
+      background: linear-gradient(135deg, #ff9500, #ffcc00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p.lead {
+      font-size: 1.1em;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 1.5em;
+      padding: 0 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .appstore-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 14px 32px;
+      font-size: 1.1em;
+      color: #1a1a2e;
+      background: linear-gradient(135deg, #ff9500, #ffcc00);
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(255, 165, 0, 0.4);
+    }
+
+    .appstore-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(255, 165, 0, 0.5);
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 620px;
+      margin: 40px 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      width: 100%;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+    }
+
+    .carousel-slide img {
+      height: auto;
+      max-height: 580px;
+      max-width: 90vw;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .carousel-wrapper {
+        max-height: 480px;
+      }
+      .carousel-slide img {
+        max-height: 440px;
+        max-width: 88vw;
+      }
+      h1 {
+        font-size: 2em;
+      }
+    }
+
+    .carousel-dots {
+      margin-top: 16px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 6px 6px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transition: background-color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    .dot:hover {
+      transform: scale(1.2);
+    }
+
+    .dot.active {
+      background-color: #ff9500;
+    }
+
+    .content-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .content-wrap h2 {
+      color: #ffcc00;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    .content-wrap ul {
+      text-align: left;
+      line-height: 1.8;
+    }
+
+    .content-wrap li {
+      margin-bottom: 8px;
+    }
+
+    .content-wrap strong {
+      color: #ff9500;
+    }
+
+    .footer-buttons {
+      margin-top: 40px;
+    }
+
+    .footer-buttons a {
+      display: inline-block;
+      margin: 8px 10px;
+      padding: 12px 20px;
+      font-size: 0.95em;
+      text-decoration: none;
+      border-radius: 10px;
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .footer-buttons a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 30px 15px;
+      font-size: 0.85em;
+      color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    #privacy-policy {
+      margin-top: 40px;
+      text-align: left;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #privacy-policy h2 {
+      color: #ffcc00;
+    }
+
+    #privacy-policy h3 {
+      color: #ff9500;
+      margin-top: 24px;
+    }
+
+    #privacy-policy ul {
+      padding-left: 20px;
+    }
+
+    #privacy-policy a {
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Light Junkie</h1>
+    <p class="lead" id="headline">Track sunrise and sunset times...</p>
+    <a href="#" class="appstore-button" id="appstoreButton">Download on the App Store</a>
+  </header>
+
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="light-junkie-01.png" alt="Light Junkie - Sun times and arc visualization" />
+      </div>
+      <div class="carousel-slide">
+        <img src="light-junkie-02.png" alt="Light Junkie - 7-day forecast" />
+      </div>
+      <div class="carousel-slide">
+        <img src="light-junkie-03.png" alt="Light Junkie - Multiple locations" />
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-dots" id="carouselDots" aria-label="Slideshow navigation">
+    <span class="dot active" aria-hidden="true"></span>
+    <span class="dot" aria-hidden="true"></span>
+    <span class="dot" aria-hidden="true"></span>
+  </div>
+
+  <main class="content-wrap">
+    <section id="featuresContent"></section>
+  </main>
+
+  <div class="footer-buttons">
+    <a href="mailto:mackozer@icloud.com" id="supportLink">Support / Contact Developer</a>
+    <a href="https://mackozer.github.io" target="_blank" rel="noopener">Developer Website</a>
+    <a href="https://mastodon.social/@mackozer" target="_blank" rel="noopener">Mastodon</a>
+    <a href="https://bsky.app/profile/mackozer.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Light Junkie. All rights reserved.
+    <section id="privacy-policy">
+      <div id="privacyContent"></div>
+    </section>
+  </footer>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.dot');
+    const slideCount = 3;
+    let index = 0;
+    let intervalId;
+    let isPaused = false;
+
+    function updateDots(activeIndex) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    function goToSlide(i) {
+      index = i;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      updateDots(index);
+    }
+
+    function nextSlide() {
+      if (isPaused) return;
+      const next = (index + 1) % slideCount;
+      goToSlide(next);
+    }
+
+    function startCarousel() {
+      intervalId = setInterval(nextSlide, 5000);
+    }
+
+    function stopCarousel() {
+      clearInterval(intervalId);
+    }
+
+    // Dots interaction
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        stopCarousel();
+        goToSlide(i);
+        startCarousel();
+      });
+    });
+
+    // Pause on hover
+    const wrapper = document.querySelector('.carousel-wrapper');
+    wrapper.addEventListener('mouseenter', () => { isPaused = true; stopCarousel(); });
+    wrapper.addEventListener('mouseleave', () => { isPaused = false; startCarousel(); });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    wrapper.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopCarousel();
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+      startCarousel();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && index < slideCount - 1) {
+          goToSlide(index + 1);
+        } else if (diff < 0 && index > 0) {
+          goToSlide(index - 1);
+        }
+      }
+    }
+
+    // Start
+    startCarousel();
+  </script>
+
+</body>
+</html>
