@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Trombalsky is a SwiftUI client for Mastodon and Bluesky built around paired accounts.">
+    <title>Trombalsky - Mastodon and Bluesky Together</title>
+    <link rel="icon" type="image/png" href="trombalsky-icon.png">
+    <link rel="apple-touch-icon" href="trombalsky-icon.png">
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #18202f;
+            --muted: #5d6778;
+            --line: #dce2ea;
+            --paper: #ffffff;
+            --soft: #f4f7fb;
+            --mastodon: #635bff;
+            --bluesky: #1185fe;
+            --green: #1d9a78;
+            --amber: #d68a18;
+            --shadow: 0 18px 55px rgba(24, 32, 47, 0.12);
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.55;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(220, 226, 234, 0.78);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav,
+        .section-inner,
+        .footer-inner {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .nav {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: #172033;
+            box-shadow: 0 10px 24px rgba(24, 32, 47, 0.18);
+            font-size: 20px;
+            font-weight: 900;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 18px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            font-weight: 700;
+            background: var(--paper);
+        }
+
+        .button.primary {
+            border-color: #172033;
+            background: #172033;
+            color: white;
+        }
+
+        .button:hover {
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            overflow: hidden;
+            border-bottom: 1px solid var(--line);
+            background: var(--soft);
+        }
+
+        .hero-inner {
+            width: min(1120px, calc(100% - 32px));
+            min-height: calc(100svh - 68px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+            align-items: center;
+            gap: 48px;
+            padding: 54px 0 42px;
+        }
+
+        .eyebrow {
+            color: var(--green);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.78rem;
+            margin: 0 0 16px;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        h1 {
+            max-width: 660px;
+            font-size: clamp(3.15rem, 8vw, 6.75rem);
+            line-height: 0.95;
+            letter-spacing: 0;
+            margin-bottom: 22px;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.1rem);
+            line-height: 1.06;
+            letter-spacing: 0;
+            margin-bottom: 14px;
+        }
+
+        .hero-copy,
+        .section-heading p,
+        .wide-copy {
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .hero-copy {
+            max-width: 650px;
+            font-size: clamp(1.08rem, 2vw, 1.32rem);
+            margin-bottom: 28px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .hero-facts {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            max-width: 650px;
+        }
+
+        .fact {
+            border-left: 3px solid var(--mastodon);
+            padding: 5px 0 5px 12px;
+        }
+
+        .fact:nth-child(2) {
+            border-color: var(--bluesky);
+        }
+
+        .fact:nth-child(3) {
+            border-color: var(--green);
+        }
+
+        .fact strong {
+            display: block;
+            font-size: 0.98rem;
+        }
+
+        .fact span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .hero-visual {
+            display: grid;
+            grid-template-columns: 0.88fr 1fr;
+            align-items: center;
+            gap: 18px;
+            min-height: 540px;
+        }
+
+        .phone {
+            width: min(100%, 286px);
+            margin-left: auto;
+            border: 10px solid #141925;
+            border-radius: 34px;
+            background: #141925;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .phone-screen {
+            min-height: 560px;
+            border-radius: 24px;
+            background: #f9fbfe;
+            overflow: hidden;
+        }
+
+        .app-bar {
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--line);
+            background: white;
+        }
+
+        .paired-icons {
+            position: relative;
+            width: 58px;
+            height: 34px;
+        }
+
+        .avatar {
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: var(--mastodon);
+        }
+
+        .avatar:nth-child(2) {
+            left: 24px;
+            background: var(--bluesky);
+        }
+
+        .segmented {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin: 14px;
+            padding: 4px;
+            border-radius: 8px;
+            background: #e9eef6;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .segmented span {
+            text-align: center;
+            padding: 7px 4px;
+            border-radius: 6px;
+        }
+
+        .segmented .active {
+            color: var(--ink);
+            background: white;
+            box-shadow: 0 4px 10px rgba(24, 32, 47, 0.08);
+        }
+
+        .post-list {
+            display: grid;
+            gap: 10px;
+            padding: 0 14px 16px;
+        }
+
+        .post {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: white;
+            padding: 12px;
+        }
+
+        .post-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .mini-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--mastodon);
+        }
+
+        .post:nth-child(2) .mini-avatar,
+        .post:nth-child(4) .mini-avatar {
+            background: var(--bluesky);
+        }
+
+        .line {
+            height: 8px;
+            border-radius: 8px;
+            background: #dce4ef;
+            margin: 7px 0;
+        }
+
+        .line.short {
+            width: 64%;
+        }
+
+        .line.medium {
+            width: 78%;
+        }
+
+        .network-pill {
+            margin-left: auto;
+            border-radius: 999px;
+            padding: 3px 7px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: white;
+            background: var(--mastodon);
+        }
+
+        .post:nth-child(2) .network-pill,
+        .post:nth-child(4) .network-pill {
+            background: var(--bluesky);
+        }
+
+        .desktop-preview {
+            align-self: end;
+            border: 1px solid rgba(220, 226, 234, 0.9);
+            border-radius: 8px;
+            background: white;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            min-height: 390px;
+        }
+
+        .window-bar {
+            height: 34px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--line);
+            background: #f7f9fc;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff6b63;
+        }
+
+        .dot:nth-child(2) {
+            background: #f0bd42;
+        }
+
+        .dot:nth-child(3) {
+            background: #33c75a;
+        }
+
+        .window-body {
+            display: grid;
+            grid-template-columns: 116px 1fr;
+            min-height: 356px;
+        }
+
+        .sidebar {
+            padding: 14px 10px;
+            background: #f4f7fb;
+            border-right: 1px solid var(--line);
+        }
+
+        .side-item {
+            height: 28px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            background: #e2e9f2;
+        }
+
+        .side-item.active {
+            background: rgba(17, 133, 254, 0.18);
+        }
+
+        .window-content {
+            padding: 16px;
+        }
+
+        .screenshot-slot {
+            display: grid;
+            place-items: center;
+            min-height: 202px;
+            border: 2px dashed #b9c5d5;
+            border-radius: 8px;
+            background: #f6f8fb;
+            color: #657284;
+            text-align: center;
+            font-weight: 800;
+            padding: 20px;
+        }
+
+        .device-shot {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 22px 45px rgba(24, 32, 47, 0.22));
+        }
+
+        .device-shot.trail {
+            align-self: end;
+            margin-bottom: 26px;
+        }
+
+        section {
+            padding: 86px 0;
+        }
+
+        .section-heading {
+            max-width: 760px;
+            margin-bottom: 34px;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: minmax(0, 0.88fr) minmax(320px, 1.12fr);
+            gap: 42px;
+            align-items: start;
+        }
+
+        .feature-grid,
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .feature-card,
+        .screenshot-card {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+        }
+
+        .feature-card {
+            padding: 22px;
+        }
+
+        .feature-card strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.02rem;
+        }
+
+        .feature-card p,
+        .screenshot-caption p {
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 0.96rem;
+        }
+
+        .icon-box {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            color: white;
+            font-weight: 900;
+            background: var(--mastodon);
+        }
+
+        .feature-card:nth-child(2) .icon-box,
+        .feature-card:nth-child(5) .icon-box {
+            background: var(--bluesky);
+        }
+
+        .feature-card:nth-child(3) .icon-box,
+        .feature-card:nth-child(6) .icon-box {
+            background: var(--green);
+        }
+
+        .band {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: var(--soft);
+        }
+
+        .mode-table {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--line);
+        }
+
+        .mode {
+            background: white;
+            padding: 24px;
+        }
+
+        .mode h3 {
+            margin-bottom: 8px;
+        }
+
+        .mode ul,
+        .check-list {
+            margin: 0;
+            padding-left: 19px;
+            color: var(--muted);
+        }
+
+        .mode li,
+        .check-list li {
+            margin: 7px 0;
+        }
+
+        .screenshots {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .screenshot-card .shot {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid var(--line);
+            background: var(--soft);
+        }
+
+        .screenshot-caption {
+            padding: 18px;
+        }
+
+        .screenshot-caption h3 {
+            margin-bottom: 6px;
+        }
+
+        .story {
+            background: #172033;
+            color: white;
+        }
+
+        .story .section-heading p,
+        .story .wide-copy {
+            color: rgba(255, 255, 255, 0.76);
+        }
+
+        .story-panel {
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .light-panel {
+            color: var(--ink);
+            background: var(--soft);
+            border-color: var(--line);
+        }
+
+        .footer {
+            padding: 34px 0;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 940px) {
+            .hero-inner,
+            .split {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-inner {
+                min-height: auto;
+            }
+
+            .hero-visual {
+                min-height: 0;
+                grid-template-columns: minmax(220px, 0.75fr) minmax(260px, 1fr);
+            }
+
+            .feature-grid,
+            .screenshots,
+            .mode-table {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .nav {
+                min-height: 62px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-inner {
+                padding-top: 38px;
+            }
+
+            .hero-facts,
+            .feature-grid,
+            .screenshots,
+            .mode-table,
+            .hero-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .phone {
+                margin: 0 auto;
+            }
+
+            .desktop-preview {
+                min-height: 320px;
+            }
+
+            section {
+                padding: 62px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Primary navigation">
+            <a class="brand" href="#top" aria-label="Trombalsky home">
+                <img class="brand-mark" src="trombalsky-icon.png" alt="Trombalsky app icon" width="38" height="38">
+                <span>Trombalsky</span>
+            </a>
+            <div class="nav-links">
+                <a href="#pairs">Account pairs</a>
+                <a href="#features">Features</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#story">Story</a>
+                <a href="trombalsky-beta.html">Beta guide</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-inner">
+                <div>
+                    <p class="eyebrow">SwiftUI app for iOS and macOS</p>
+                    <h1 id="hero-title">Trombalsky</h1>
+                    <p class="hero-copy">A combined client for Mastodon and Bluesky, built around paired identities so you can read, post, search, and switch between networks without treating them as separate worlds.</p>
+                    <div class="hero-actions">
+                        <a class="button primary" href="#screenshots">View screenshots</a>
+                        <a class="button" href="#features">Explore features</a>
+                        <a class="button" href="trombalsky-beta.html">Beta tester guide</a>
+                    </div>
+                    <div class="hero-facts" aria-label="Core app facts">
+                        <div class="fact">
+                            <strong>Mastodon</strong>
+                            <span>Fediverse timelines, profiles, search, notifications, messages, and more.</span>
+                        </div>
+                        <div class="fact">
+                            <strong>Bluesky</strong>
+                            <span>AtProto feeds, posts, profiles, notifications, messages, and discovery.</span>
+                        </div>
+                        <div class="fact">
+                            <strong>Both</strong>
+                            <span>Unified modes where the app can show content from both networks together.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-label="Trombalsky app screenshots">
+                    <img class="device-shot lead" src="trombalsky-screen-01.png" alt="Trombalsky combined feed showing Mastodon and Bluesky posts in Both mode" width="456" height="912" loading="eager">
+                    <img class="device-shot trail" src="trombalsky-screen-04.png" alt="Trombalsky account pair switcher listing multiple identity pairs" width="456" height="912" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section id="pairs" aria-labelledby="pairs-title">
+            <div class="section-inner split">
+                <div class="section-heading">
+                    <p class="eyebrow">Account pairs</p>
+                    <h2 id="pairs-title">One Mastodon account, one Bluesky account, one active identity pair.</h2>
+                    <p>Trombalsky is organized around pairs of accounts. A pair means one Mastodon account plus one Bluesky account. You can create multiple pairs and switch between them quickly from the two-profile-image icon.</p>
+                </div>
+                <div class="story-panel light-panel">
+                    <ul class="check-list">
+                        <li>Use a complete Mastodon and Bluesky pair for a unified social workflow.</li>
+                        <li>Create several pairs for personal, project, company, or community identities.</li>
+                        <li>Use Trombalsky with only Mastodon or only Bluesky when you do not need both networks.</li>
+                        <li>Switch the active pair instead of signing out and back in between identities.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="band" aria-labelledby="features-title">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <p class="eyebrow">Core views</p>
+                    <h2 id="features-title">Three network modes across the main workflows.</h2>
+                    <p>Main Feed, Notifications, Messages, Liked Posts, Bookmarks, and Search can be used in Mastodon, Bluesky, or Both mode. Profiles let you choose between the Mastodon and Bluesky profile for the active pair.</p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <span class="icon-box">F</span>
+                        <strong>Main Feed</strong>
+                        <p>Read Mastodon, Bluesky, or combined timelines from the active account pair.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="icon-box">N</span>
+                        <strong>Notifications</strong>
+                        <p>Follow mentions, replies, likes, boosts, reposts, and follows from each network.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="icon-box">M</span>
+                        <strong>Messages</strong>
+                        <p>Open conversations from Mastodon and Bluesky while keeping network context visible.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="icon-box">P</span>
+                        <strong>Profiles</strong>
+                        <p>Switch between the Mastodon and Bluesky profile belonging to the active pair.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="icon-box">S</span>
+                        <strong>Search</strong>
+                        <p>Search posts, users, and hashtags across selected networks, with Mastodon trends included.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="icon-box">T</span>
+                        <strong>Settings</strong>
+                        <p>Manage timeline presentation, filters, accounts, pairs, notifications, and tab behavior.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="modes-title">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <p class="eyebrow">Network modes</p>
+                    <h2 id="modes-title">Choose the network scope that fits the moment.</h2>
+                </div>
+                <div class="mode-table">
+                    <article class="mode">
+                        <h3>Mastodon</h3>
+                        <ul>
+                            <li>Fediverse timelines and accounts.</li>
+                            <li>Search, hashtags, trends, and server-aware behavior.</li>
+                            <li>Push notifications for Mastodon activity.</li>
+                        </ul>
+                    </article>
+                    <article class="mode">
+                        <h3>Bluesky</h3>
+                        <ul>
+                            <li>AtProto posts, profiles, and conversations.</li>
+                            <li>Bluesky notifications and messages.</li>
+                            <li>Push notifications for Bluesky activity.</li>
+                        </ul>
+                    </article>
+                    <article class="mode">
+                        <h3>Both</h3>
+                        <ul>
+                            <li>Combined views for feeds, notifications, messages, likes, bookmarks, and search.</li>
+                            <li>Fast movement between paired identities.</li>
+                            <li>Clear network origin for mixed content.</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="screenshots" class="band" aria-labelledby="screenshots-title">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <p class="eyebrow">Screenshots</p>
+                    <h2 id="screenshots-title">See Trombalsky in action.</h2>
+                    <p>The combined feed, both network profiles for the active pair, and the two-profile-image switcher used to move between identities.</p>
+                </div>
+                <div class="screenshots">
+                    <article class="screenshot-card">
+                        <img class="shot" src="trombalsky-screen-01.png" alt="Trombalsky combined feed in Both mode showing Mastodon and Bluesky posts together" width="456" height="912" loading="lazy">
+                        <div class="screenshot-caption">
+                            <h3>Combined Feed</h3>
+                            <p>Mastodon and Bluesky posts together, each with visible network context.</p>
+                        </div>
+                    </article>
+                    <article class="screenshot-card">
+                        <img class="shot" src="trombalsky-screen-02.png" alt="Trombalsky Mastodon profile for the active account pair" width="456" height="912" loading="lazy">
+                        <div class="screenshot-caption">
+                            <h3>Mastodon Profile</h3>
+                            <p>The Mastodon side of the active pair, with posts, replies, boosts, and collections.</p>
+                        </div>
+                    </article>
+                    <article class="screenshot-card">
+                        <img class="shot" src="trombalsky-screen-03.png" alt="Trombalsky Bluesky profile for the active account pair" width="456" height="912" loading="lazy">
+                        <div class="screenshot-caption">
+                            <h3>Bluesky Profile</h3>
+                            <p>Switch to the Bluesky side of the same pair without leaving the profile view.</p>
+                        </div>
+                    </article>
+                    <article class="screenshot-card">
+                        <img class="shot" src="trombalsky-screen-04.png" alt="Trombalsky account pair switcher listing multiple identity pairs" width="456" height="912" loading="lazy">
+                        <div class="screenshot-caption">
+                            <h3>Account Pairs</h3>
+                            <p>Tap the two-profile-image icon to switch between configured identity pairs.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="story" class="story" aria-labelledby="story-title">
+            <div class="section-inner split">
+                <div class="section-heading">
+                    <p class="eyebrow">About</p>
+                    <h2 id="story-title">A side project by Krystian Kozerawski.</h2>
+                    <p>Trombalsky is written in SwiftUI by Krystian Kozerawski, a developer at Apparent Software, also known for Eter, a radio app for iOS, macOS, watchOS, tvOS, and Android.</p>
+                </div>
+                <div class="story-panel">
+                    <p class="wide-copy">The name comes from Tomasz Trąbalski, the fictional elephant from Julian Tuwim's Polish poem "Słoń Trąbalski." The spelling became Trombalsky for easier pronunciation outside Poland, echoing how Polish names were sometimes adapted by replacing diacritics and changing "ski" to "sky." It fits an app that brings together Mastodon, named after an extinct relative of elephants, and Bluesky.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 Trombalsky</span>
+            <span style="display:flex;gap:18px;">
+                <a href="trombalsky-beta.html">Beta tester guide</a>
+                <a href="index.html">Krystian Kozerawski</a>
+            </span>
+            <span>Built for Mastodon, Bluesky, and people who use both.</span>
+        </div>
+    </footer>
+</body>
+</html>

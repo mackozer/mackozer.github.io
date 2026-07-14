@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Beta tester guide for Trombalsky, a SwiftUI client for Mastodon and Bluesky built around paired accounts.">
+    <title>Trombalsky - Beta Tester Guide</title>
+    <link rel="icon" type="image/png" href="trombalsky-icon.png">
+    <link rel="apple-touch-icon" href="trombalsky-icon.png">
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #18202f;
+            --muted: #5d6778;
+            --line: #dce2ea;
+            --paper: #ffffff;
+            --soft: #f4f7fb;
+            --mastodon: #635bff;
+            --bluesky: #1185fe;
+            --green: #1d9a78;
+            --shadow: 0 18px 55px rgba(24, 32, 47, 0.12);
+            --radius: 8px;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.6;
+        }
+
+        a { color: var(--bluesky); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(220, 226, 234, 0.78);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav, .wrap {
+            width: min(860px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .nav {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            color: inherit;
+        }
+
+        .brand:hover { text-decoration: none; }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 10px 24px rgba(24, 32, 47, 0.18);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a { color: var(--muted); }
+        .nav-links a:hover { color: var(--ink); }
+
+        .hero {
+            border-bottom: 1px solid var(--line);
+            background: var(--soft);
+            padding: 56px 0 44px;
+        }
+
+        .eyebrow {
+            color: var(--green);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.78rem;
+            margin: 0 0 14px;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.3rem);
+            line-height: 1.05;
+            margin: 0 0 16px;
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 640px;
+            margin: 0;
+        }
+
+        .created {
+            margin: 18px 0 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        main { padding: 48px 0 20px; }
+
+        section { margin-bottom: 44px; }
+
+        h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.15;
+            margin: 0 0 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin: 26px 0 8px;
+        }
+
+        p { margin: 0 0 14px; }
+
+        ul { margin: 0 0 16px; padding-left: 20px; color: var(--muted); }
+        li { margin: 7px 0; }
+
+        .modes {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 14px;
+            padding: 0;
+        }
+
+        .pill {
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            background: var(--mastodon);
+        }
+
+        .pill.bsky { background: var(--bluesky); }
+        .pill.both { background: var(--green); }
+
+        .callout {
+            border: 1px solid var(--line);
+            border-left: 3px solid var(--bluesky);
+            border-radius: var(--radius);
+            background: var(--soft);
+            padding: 18px 20px;
+        }
+
+        .callout strong { display: block; margin-bottom: 6px; }
+
+        .footer {
+            padding: 34px 0;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+        }
+
+        .footer-inner {
+            width: min(860px, calc(100% - 32px));
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 680px) {
+            .nav-links { display: none; }
+            .hero { padding: 40px 0 32px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Primary navigation">
+            <a class="brand" href="trombalsky.html" aria-label="Trombalsky home">
+                <img class="brand-mark" src="trombalsky-icon.png" alt="Trombalsky app icon" width="38" height="38">
+                <span>Trombalsky</span>
+            </a>
+            <div class="nav-links">
+                <a href="trombalsky.html#features">Features</a>
+                <a href="trombalsky.html#screenshots">Screenshots</a>
+                <a href="trombalsky.html">Overview</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="wrap">
+            <p class="eyebrow">Beta program</p>
+            <h1>Trombalsky Beta Tester Guide</h1>
+            <p class="lead">Thank you for testing Trombalsky. This guide explains what the app is, what makes it different, and which areas are most important to exercise during the beta.</p>
+            <p class="created">Created: 9 July 2026</p>
+        </div>
+    </div>
+
+    <main class="wrap">
+        <section>
+            <h2>What Trombalsky Is</h2>
+            <p>Trombalsky is a SwiftUI app for Mastodon and Bluesky. It can work as:</p>
+            <ul>
+                <li>A combined Mastodon and Bluesky client.</li>
+                <li>A Mastodon-only client.</li>
+                <li>A Bluesky-only client.</li>
+            </ul>
+            <p>The main idea is account pairing. A Trombalsky account pair contains one Mastodon account and one Bluesky account. It never means two Mastodon accounts or two Bluesky accounts.</p>
+            <p>You can create multiple pairs and switch between them quickly by tapping or clicking the icon made from two profile images. This lets you move between different Mastodon/Bluesky identities without treating each network as a completely separate app.</p>
+        </section>
+
+        <section>
+            <h2>Why Account Pairs Matter</h2>
+            <p>Many people use both the Fediverse and Bluesky, often with related identities on each network. Trombalsky is built around that real-world pattern.</p>
+            <p>For example, one pair might contain:</p>
+            <ul>
+                <li>Your personal Mastodon account.</li>
+                <li>Your personal Bluesky account.</li>
+            </ul>
+            <p>Another pair might contain:</p>
+            <ul>
+                <li>Your project, company, or community Mastodon account.</li>
+                <li>The matching Bluesky account.</li>
+            </ul>
+            <p>You can also use an incomplete pair if you only want one network. For example, you may use only Mastodon or only Bluesky and still use Trombalsky normally.</p>
+        </section>
+
+        <section>
+            <h2>Main Areas To Test</h2>
+            <p>Please try the app in the way you would naturally use a social client, but pay special attention to the areas below.</p>
+
+            <h3>Account Setup And Switching</h3>
+            <p>Test signing in with Mastodon, Bluesky, or both. If you use both networks, create at least one full pair and switch between pairs using the two-profile-image icon.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Signing in succeeds and the right account appears.</li>
+                <li>Switching pairs changes the active Mastodon and Bluesky identities correctly.</li>
+                <li>Single-network use still feels clear when only Mastodon or only Bluesky is configured.</li>
+                <li>Adding another pair does not break existing pairs.</li>
+            </ul>
+
+            <h3>Main Feed</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Each mode shows the expected posts.</li>
+                <li>The Both mode combines posts in a useful and understandable way.</li>
+                <li>Refreshing, loading more posts, and returning to the feed behave correctly.</li>
+                <li>Replies, boosts/reposts, quotes, images, polls, links, and content warnings appear correctly where supported.</li>
+            </ul>
+
+            <h3>Notifications</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Mentions, likes, reposts/boosts, follows, and replies appear under the correct network.</li>
+                <li>The Both mode is understandable and does not mix identities incorrectly.</li>
+                <li>Opening a notification takes you to the expected post, profile, or conversation.</li>
+            </ul>
+
+            <h3>Messages</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Conversations load for each configured network.</li>
+                <li>Sending and receiving messages works where supported.</li>
+                <li>The Both mode keeps conversations understandable and clearly associated with the correct network.</li>
+            </ul>
+
+            <h3>Profiles</h3>
+            <p>The Profile view lets you select between the Mastodon profile and the Bluesky profile.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>The correct profile opens for the active account pair.</li>
+                <li>Profile information, posts, followers/following counts, and actions behave as expected.</li>
+                <li>Switching between Mastodon and Bluesky profiles is clear.</li>
+            </ul>
+
+            <h3>Liked Posts</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Liked posts load for the selected network mode.</li>
+                <li>Liking and unliking posts updates the UI correctly.</li>
+                <li>The Both mode keeps network origin clear.</li>
+            </ul>
+
+            <h3>Bookmarks</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Bookmarking and removing bookmarks works.</li>
+                <li>Bookmarked posts appear in the expected mode.</li>
+                <li>The app handles differences between Mastodon and Bluesky behavior clearly.</li>
+            </ul>
+
+            <h3>Search</h3>
+            <p class="modes"><span class="pill">Mastodon</span><span class="pill bsky">Bluesky</span><span class="pill both">Both</span></p>
+            <p>Search supports posts, users, and hashtags. Trombalsky also includes trending posts, hashtags, and links. These are currently Mastodon-only.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Searching for posts, users, and hashtags returns useful results.</li>
+                <li>The selected mode affects results correctly.</li>
+                <li>Trending Mastodon content loads and opens correctly.</li>
+                <li>Empty states and errors are understandable.</li>
+            </ul>
+
+            <h3>Settings</h3>
+            <p>Settings include controls for timeline presentation, filters, accounts, account pairs, and other app behavior.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Settings are saved and still applied after restarting the app.</li>
+                <li>Timeline, filter, compose, notification, and account options behave as described in the app.</li>
+                <li>Adding, editing, or removing account pairs behaves predictably.</li>
+            </ul>
+
+            <h3>iOS Custom Tab Bar Slots</h3>
+            <p>On iOS, the last two tab bar slots are customizable. To customize them, tap and hold one of the last two tab slots. A list of available views should appear, and you can assign a different view to that slot.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Long press opens the view list.</li>
+                <li>Choosing a view changes the selected tab slot.</li>
+                <li>The app remembers the selected tab layout.</li>
+                <li>The selected view opens correctly from the tab bar.</li>
+            </ul>
+
+            <h3>Push Notifications</h3>
+            <p>Trombalsky supports push notifications for both Mastodon and Bluesky.</p>
+            <p>Things to check:</p>
+            <ul>
+                <li>Notification permissions can be enabled.</li>
+                <li>Mastodon notifications arrive when expected.</li>
+                <li>Bluesky notifications arrive when expected.</li>
+                <li>Tapping a notification opens the relevant place in the app when possible.</li>
+                <li>Notifications are associated with the correct account pair and network.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>What To Report</h2>
+            <p>Please report anything that feels broken, confusing, slow, or inconsistent. Useful beta feedback includes:</p>
+            <ul>
+                <li>Crashes or freezes.</li>
+                <li>Sign-in problems.</li>
+                <li>Posts, notifications, or messages appearing under the wrong network or account pair.</li>
+                <li>Missing or duplicated feed items.</li>
+                <li>Actions that seem to work but then revert later.</li>
+                <li>Push notifications that do not arrive, arrive late, or open the wrong screen.</li>
+                <li>UI text that is unclear, clipped, untranslated, or misleading.</li>
+                <li>Places where Mastodon and Bluesky behavior differs and the app does not explain the difference well enough.</li>
+            </ul>
+            <div class="callout">
+                <strong>When possible, include:</strong>
+                <ul style="margin-bottom:0;">
+                    <li>Device model and OS version.</li>
+                    <li>App version or build number.</li>
+                    <li>Whether you were using Mastodon, Bluesky, or Both mode.</li>
+                    <li>Which account pair was active.</li>
+                    <li>The Mastodon server involved, if relevant.</li>
+                    <li>Steps to reproduce the problem.</li>
+                    <li>Screenshots or screen recordings, if they help explain the issue.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>About The App</h2>
+            <p>Trombalsky is a side project by Krystian Kozerawski, a developer at Apparent Software. Krystian is also known for Eter, a radio app available for iOS, macOS, watchOS, tvOS, and Android.</p>
+            <p>The name Trombalsky comes from the fictional elephant Tomasz Trąbalski from the Polish poem "Słoń Trąbalski" by Julian Tuwim, one of Krystian's favorite poets. In English, the character's name could be loosely translated as "Elephant Trunkington."</p>
+            <p>For easier pronunciation outside Poland, the name was changed from Trąbalski to Trombalsky, similar to how Polish names were sometimes adapted after emigration by replacing Polish diacritics and changing endings such as "ski" to "sky."</p>
+            <p>The elephant connection fits the app well: Mastodon is named after an extinct relative of elephants, while Bluesky brings the "sky." Trombalsky combines both networks in one place.</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 Trombalsky</span>
+            <span style="display:flex;gap:18px;">
+                <a href="trombalsky.html">Overview</a>
+                <a href="index.html">Krystian Kozerawski</a>
+            </span>
+            <span>Built for Mastodon, Bluesky, and people who use both.</span>
+        </div>
+    </footer>
+</body>
+</html>
