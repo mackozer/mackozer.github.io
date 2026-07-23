@@ -604,6 +604,47 @@
             border-color: var(--line);
         }
 
+        .legal-body {
+            max-width: 820px;
+        }
+
+        .legal-body .effective {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .legal-body h3 {
+            margin: 30px 0 8px;
+            font-size: 1.05rem;
+        }
+
+        .legal-body p {
+            margin: 0 0 12px;
+            color: var(--muted);
+        }
+
+        .legal-body ul {
+            margin: 0 0 12px;
+            padding-left: 19px;
+            color: var(--muted);
+        }
+
+        .legal-body li {
+            margin: 6px 0;
+        }
+
+        .legal-body a {
+            color: var(--mastodon);
+        }
+
+        .legal-body code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.9em;
+            background: var(--soft);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
         .footer {
             padding: 34px 0;
             border-top: 1px solid var(--line);
@@ -686,6 +727,8 @@
                 <a href="#features">Features</a>
                 <a href="#screenshots">Screenshots</a>
                 <a href="#story">Story</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
                 <a href="trombalsky-beta.html">Beta guide</a>
             </div>
         </nav>
@@ -874,12 +917,223 @@
                 </div>
             </div>
         </section>
+
+        <section id="privacy" aria-labelledby="privacy-title">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <p class="eyebrow">Legal</p>
+                    <h2 id="privacy-title">Privacy Policy</h2>
+                </div>
+                <div class="legal-body">
+                    <p class="effective">Effective date: July 23, 2026</p>
+                    <p>Trombalsky is a native app for Mastodon and Bluesky. It is built to avoid advertising, third-party tracking, and unnecessary data collection. The app connects to the Mastodon instances and Bluesky/AtProto services that you choose, and it uses a Trombalsky push relay only to deliver notifications.</p>
+                    <p>This policy explains what information is processed by the app, by the Trombalsky push relay, and by third-party services needed for the app to work.</p>
+
+                    <h3>Data We Do Not Collect</h3>
+                    <ul>
+                        <li>We do not use advertising SDKs.</li>
+                        <li>We do not use third-party tracking SDKs.</li>
+                        <li>We do not sell personal data.</li>
+                        <li>We do not use your data to track you across apps or websites.</li>
+                        <li>We do not collect location data.</li>
+                        <li>We do not collect contacts.</li>
+                        <li>We do not collect analytics unless a future version states otherwise in this policy.</li>
+                    </ul>
+
+                    <h3>Account Sign-In And Credentials</h3>
+                    <p>Trombalsky lets you sign in to Mastodon and Bluesky accounts.</p>
+                    <ul>
+                        <li>Mastodon sign-in uses the Mastodon instance selected by you.</li>
+                        <li>Bluesky sign-in uses Bluesky/AtProto services.</li>
+                        <li>Access tokens and account credentials used by the app are stored locally on your device, such as in the system Keychain where appropriate.</li>
+                        <li>Trombalsky does not use these credentials for advertising, analytics, or tracking.</li>
+                    </ul>
+                    <p>Your Mastodon instance and Bluesky/AtProto services have their own privacy policies and terms. Content and account data sent to those services is governed by those services.</p>
+
+                    <h3>User Content</h3>
+                    <p>Trombalsky processes user content only as needed for app functionality. This may include:</p>
+                    <ul>
+                        <li>posts, replies, reposts, likes, bookmarks, and other social actions;</li>
+                        <li>direct messages or conversations where supported by the connected service;</li>
+                        <li>profile text, avatars, banners, list images, and other account metadata you choose to edit;</li>
+                        <li>photos, videos, or files you select for upload;</li>
+                        <li>search queries sent to Mastodon or Bluesky services;</li>
+                        <li>URLs used for opening links or generating link previews.</li>
+                    </ul>
+                    <p>When you post, upload, send, search, or interact with content, that information is sent to the Mastodon or Bluesky service needed to perform the action.</p>
+
+                    <h3>Local App Data</h3>
+                    <p>Trombalsky stores some information locally on your device to make the app work, such as:</p>
+                    <ul>
+                        <li>app preferences;</li>
+                        <li>account and account-pair settings;</li>
+                        <li>cached posts, conversations, media metadata, and timeline state;</li>
+                        <li>notification preferences;</li>
+                        <li>draft or compose-related state where supported.</li>
+                    </ul>
+                    <p>Local data remains on your device unless it is sent to Mastodon, Bluesky, Apple services, or the Trombalsky push relay as described in this policy.</p>
+
+                    <h3>Push Notifications</h3>
+                    <p>If you enable notifications, Trombalsky uses Apple Push Notification service and a Trombalsky relay at <code>push.trombalsky.app</code>.</p>
+                    <p>The relay is used only for notification delivery. It is not used for advertising, analytics, or tracking.</p>
+                    <p>The relay may process information required to route notifications, such as:</p>
+                    <ul>
+                        <li>APNs device tokens;</li>
+                        <li>the push environment, such as sandbox or production;</li>
+                        <li>Mastodon account or subscription information needed to forward Mastodon Web Push notifications;</li>
+                        <li>Bluesky DIDs and notification-matching information needed to deliver Bluesky notifications;</li>
+                        <li>notification payload data needed to send the notification to your device.</li>
+                    </ul>
+                    <p>For Mastodon notifications, Mastodon Web Push payloads are encrypted by the Mastodon server and decrypted on your device by the app's notification extension where supported. The relay forwards the payload to Apple Push Notification service.</p>
+                    <p>For Bluesky notifications, the relay watches public Bluesky/AtProto event streams, matches events relevant to registered users, and generates notification text required for APNs delivery.</p>
+                    <p>You can disable notifications in the app or in system settings. Disabling notifications may remove or stop active push registrations where supported.</p>
+
+                    <h3>App Store Purchases</h3>
+                    <p>Trombalsky uses Apple's StoreKit for subscriptions and lifetime purchases. Purchase processing, billing, refunds, and subscription management are handled by Apple.</p>
+                    <p>Trombalsky checks StoreKit entitlements to determine whether the app is unlocked. Trombalsky does not receive your full payment card details.</p>
+
+                    <h3>Permissions</h3>
+                    <p>Trombalsky may request system permissions only when needed for app functionality:</p>
+                    <ul>
+                        <li>Notifications: to alert you about Mastodon and Bluesky activity.</li>
+                        <li>Photos and media picker: to let you attach media to posts or profile/list updates.</li>
+                        <li>Files/importer on supported platforms: to let you choose files or media to upload.</li>
+                        <li>Pasteboard: when you explicitly paste content into compose fields or copy content from the app.</li>
+                    </ul>
+
+                    <h3>Third-Party Services</h3>
+                    <p>Trombalsky depends on these services for core functionality:</p>
+                    <ul>
+                        <li>Mastodon instances selected by the user.</li>
+                        <li>Bluesky and AtProto services.</li>
+                        <li>Apple Push Notification service.</li>
+                        <li>Apple StoreKit and App Store services for purchases.</li>
+                        <li>Trombalsky push relay at <code>push.trombalsky.app</code>.</li>
+                        <li>External websites opened by user action.</li>
+                    </ul>
+                    <p>These services may process information under their own privacy policies.</p>
+
+                    <h3>Data Retention</h3>
+                    <p>Data stored locally in the app remains on your device until you delete it through the app, remove accounts, clear app data, or uninstall the app.</p>
+                    <p>Push relay registration data is retained only as needed to deliver notifications and manage active registrations. Server logs, if any, should be limited to operational and security needs.</p>
+                    <p>Mastodon, Bluesky, Apple, and external websites may retain data according to their own policies.</p>
+
+                    <h3>Children</h3>
+                    <p>Trombalsky is not directed to children. Users must meet the age requirements of the App Store and of the Mastodon or Bluesky services they use.</p>
+
+                    <h3>Changes To This Policy</h3>
+                    <p>If Trombalsky changes how it handles data, this policy will be updated. Important changes may also be announced in the app or on the <a href="https://mackozer.github.io/trombalsky.html">Trombalsky website</a>.</p>
+
+                    <h3>Contact</h3>
+                    <p>Questions about this policy can be sent to: <a href="mailto:mackozer@gmail.com">mackozer@gmail.com</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="terms" class="band" aria-labelledby="terms-title">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <p class="eyebrow">Legal</p>
+                    <h2 id="terms-title">Terms of Use</h2>
+                </div>
+                <div class="legal-body">
+                    <p class="effective">Effective date: July 23, 2026</p>
+                    <p>These Terms of Use apply to your use of Trombalsky, a native app for Mastodon and Bluesky. By downloading, purchasing, subscribing to, or using Trombalsky, you agree to these terms.</p>
+                    <p>If you do not agree to these terms, do not use the app.</p>
+
+                    <h3>App License</h3>
+                    <p>Trombalsky is licensed, not sold. Your use of the app is also subject to Apple's App Store terms and, unless a custom license is provided in App Store Connect, Apple's standard Licensed Application End User License Agreement.</p>
+                    <p>Apple's standard EULA is available at: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">https://www.apple.com/legal/internet-services/itunes/dev/stdeula/</a></p>
+
+                    <h3>What Trombalsky Does</h3>
+                    <p>Trombalsky lets you connect Mastodon and Bluesky accounts, view feeds and notifications, post content, interact with posts, manage account-related features, and receive push notifications where supported.</p>
+                    <p>Trombalsky is a client for third-party social networks. It does not operate Mastodon, Bluesky, or AtProto services.</p>
+
+                    <h3>Third-Party Accounts And Services</h3>
+                    <p>To use core features, you need a Mastodon account, a Bluesky account, or both.</p>
+                    <p>Your use of Mastodon instances, Bluesky, AtProto services, and any external websites is governed by those services' own terms, rules, moderation policies, and privacy policies.</p>
+                    <p>You are responsible for:</p>
+                    <ul>
+                        <li>complying with the rules of the Mastodon instances and Bluesky services you use;</li>
+                        <li>keeping your accounts secure;</li>
+                        <li>using app passwords where recommended by a service;</li>
+                        <li>ensuring that content you post or upload is lawful and permitted by the relevant service.</li>
+                    </ul>
+                    <p>Trombalsky is not responsible for third-party service availability, moderation decisions, account suspensions, API changes, data loss, or content hosted by third-party services.</p>
+
+                    <h3>User Content</h3>
+                    <p>You are responsible for content you create, upload, post, send, or otherwise make available through Trombalsky.</p>
+                    <p>You must not use Trombalsky to post or transmit content that is illegal, abusive, infringing, harmful, or prohibited by the applicable Mastodon instance, Bluesky, AtProto service, App Store rules, or local law.</p>
+                    <p>Trombalsky does not claim ownership of your content. When you send content to Mastodon or Bluesky services, those services may receive, store, display, moderate, or distribute the content according to their own terms.</p>
+
+                    <h3>Subscriptions And Lifetime Purchase</h3>
+                    <p>Trombalsky may require an active subscription or lifetime purchase to unlock app access.</p>
+                    <p>Available purchase options may include:</p>
+                    <ul>
+                        <li>a monthly auto-renewable subscription;</li>
+                        <li>a yearly auto-renewable subscription;</li>
+                        <li>a one-time lifetime purchase.</li>
+                    </ul>
+                    <p>Prices, billing periods, free trials, and introductory offers are shown in the app using StoreKit information from Apple. Do not rely on screenshots, marketing text, or old prices if StoreKit displays different current terms at purchase time.</p>
+                    <p>Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current billing period, or as otherwise described by Apple's App Store terms for your region. You can manage or cancel subscriptions in your Apple ID/App Store account settings.</p>
+                    <p>Payment, billing, renewal, cancellation, refunds, and family sharing availability are handled by Apple under Apple's App Store terms. Trombalsky does not process payment card details directly.</p>
+                    <p>A lifetime purchase unlocks Trombalsky for the Apple ID that purchased it, subject to App Store availability, platform limitations, and these terms.</p>
+
+                    <h3>Trials And Introductory Offers</h3>
+                    <p>Trials and introductory offers are available only when Apple and App Store Connect report that you are eligible. Trial duration, offer price, and eligibility may vary by product, region, Apple ID, and App Store configuration.</p>
+                    <p>If a free trial is available, billing begins after the trial unless you cancel according to Apple's App Store subscription rules.</p>
+
+                    <h3>Push Notifications</h3>
+                    <p>If you enable notifications, Trombalsky may register your device with Apple Push Notification service and the Trombalsky push relay at <code>push.trombalsky.app</code>.</p>
+                    <p>Push notifications are provided as a convenience and may be delayed, incomplete, unavailable, or affected by Mastodon, Bluesky, Apple, network, or relay behavior. Trombalsky does not guarantee delivery of every notification.</p>
+
+                    <h3>Acceptable Use</h3>
+                    <p>You agree not to:</p>
+                    <ul>
+                        <li>misuse Trombalsky or use it for unlawful activity;</li>
+                        <li>attempt to reverse engineer, disrupt, overload, or abuse Trombalsky services or the push relay;</li>
+                        <li>use the app to harass, threaten, defame, impersonate, or harm others;</li>
+                        <li>upload or distribute content that violates another person's rights;</li>
+                        <li>bypass payment, entitlement, rate-limit, security, or access controls;</li>
+                        <li>use Trombalsky in a way that violates App Store rules or third-party service terms.</li>
+                    </ul>
+
+                    <h3>Availability And Changes</h3>
+                    <p>Trombalsky depends on Apple services, Mastodon servers, Bluesky/AtProto services, network connectivity, and the Trombalsky push relay. Features may change, break, or become unavailable because of service changes, API changes, operating system changes, outages, or app updates.</p>
+                    <p>Trombalsky may be updated, modified, suspended, or discontinued at any time. Some features may require newer operating system versions or active purchases.</p>
+
+                    <h3>No Warranty</h3>
+                    <p>Trombalsky is provided as is and as available. To the maximum extent permitted by law, no warranties are made about reliability, availability, fitness for a particular purpose, non-infringement, or error-free operation.</p>
+                    <p>Some jurisdictions do not allow certain warranty exclusions, so parts of this section may not apply to you.</p>
+
+                    <h3>Limitation Of Liability</h3>
+                    <p>To the maximum extent permitted by law, Trombalsky and its developer are not liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or for loss of data, content, account access, profits, goodwill, or business opportunities arising from use of or inability to use the app.</p>
+                    <p>Nothing in these terms limits liability where it cannot legally be limited.</p>
+
+                    <h3>Termination</h3>
+                    <p>You may stop using Trombalsky at any time.</p>
+                    <p>Access to Trombalsky may be suspended or terminated if you violate these terms, misuse the app or relay, bypass purchase controls, or use the app in a way that creates legal, security, operational, or abuse risk.</p>
+                    <p>Deleting the app does not automatically cancel App Store subscriptions. Subscriptions must be managed through your Apple ID/App Store account settings.</p>
+
+                    <h3>Privacy</h3>
+                    <p>Your use of Trombalsky is also governed by the <a href="#privacy">Trombalsky Privacy Policy</a>.</p>
+
+                    <h3>Changes To These Terms</h3>
+                    <p>These terms may be updated from time to time. If changes are material, notice may be provided in the app or on the <a href="https://mackozer.github.io/trombalsky.html">Trombalsky website</a>. Continued use of the app after changes means you accept the updated terms.</p>
+
+                    <h3>Contact</h3>
+                    <p>Questions about these terms can be sent to: <a href="mailto:mackozer@gmail.com">mackozer@gmail.com</a></p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
         <div class="footer-inner">
             <span>&copy; 2026 Trombalsky</span>
             <span style="display:flex;gap:18px;">
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
                 <a href="trombalsky-beta.html">Beta tester guide</a>
                 <a href="index.html">Krystian Kozerawski</a>
             </span>
