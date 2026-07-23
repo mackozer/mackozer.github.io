@@ -133,13 +133,12 @@
 
         .hero-inner {
             width: min(1120px, calc(100% - 32px));
-            min-height: calc(100svh - 68px);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
             align-items: center;
             gap: 48px;
-            padding: 54px 0 42px;
+            padding: 56px 0;
         }
 
         .eyebrow {
@@ -160,7 +159,7 @@
 
         h1 {
             max-width: 660px;
-            font-size: clamp(3.15rem, 8vw, 6.75rem);
+            font-size: clamp(2.75rem, 5.5vw, 5.25rem);
             line-height: 0.95;
             letter-spacing: 0;
             margin-bottom: 22px;
@@ -226,10 +225,10 @@
 
         .hero-visual {
             display: grid;
-            grid-template-columns: 0.88fr 1fr;
+            grid-template-columns: 1fr 1fr;
             align-items: center;
+            justify-items: center;
             gap: 18px;
-            min-height: 540px;
         }
 
         .phone {
@@ -442,16 +441,10 @@
 
         .device-shot {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             height: auto;
             display: block;
             margin: 0 auto;
-            filter: drop-shadow(0 22px 45px rgba(24, 32, 47, 0.22));
-        }
-
-        .device-shot.trail {
-            align-self: end;
-            margin-bottom: 26px;
         }
 
         section {
@@ -477,8 +470,7 @@
             gap: 16px;
         }
 
-        .feature-card,
-        .screenshot-card {
+        .feature-card {
             border: 1px solid var(--line);
             border-radius: 8px;
             background: white;
@@ -569,12 +561,10 @@
             display: block;
             width: 100%;
             height: auto;
-            border-bottom: 1px solid var(--line);
-            background: var(--soft);
         }
 
         .screenshot-caption {
-            padding: 18px;
+            padding: 18px 0 0;
         }
 
         .screenshot-caption h3 {
@@ -669,8 +659,7 @@
             }
 
             .hero-visual {
-                min-height: 0;
-                grid-template-columns: minmax(220px, 0.75fr) minmax(260px, 1fr);
+                grid-template-columns: 1fr 1fr;
             }
 
             .feature-grid,
